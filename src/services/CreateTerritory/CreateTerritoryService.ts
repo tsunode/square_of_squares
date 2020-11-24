@@ -31,16 +31,10 @@ class CreateTerritoryService {
       throw new AppError('This new territory overlays another territory');
     }
 
-    const startPoint = `(${start.x}, ${start.y})`;
-    const endPoint = `(${end.x}, ${end.y})`;
-
-    const area = (end.x - start.x) * (end.y - start.y);
-
     const territory = await this.territoryRepository.create({
       name,
-      start: startPoint,
-      end: endPoint,
-      area,
+      start,
+      end,
     });
 
     return territory;

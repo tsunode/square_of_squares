@@ -5,5 +5,6 @@ const territoriesRouter = Router();
 const territoriesController = new TerritoriesController();
 
 territoriesRouter.post('/', territoriesController.create);
+territoriesRouter.get('/', territoriesController.index);
 
 export default territoriesRouter;

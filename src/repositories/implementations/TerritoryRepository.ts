@@ -15,9 +15,8 @@ class TerritoryRepository implements ITerritoryRepository {
     name,
     start,
     end,
-    area,
   }: ICreateTerritoryDTO): Promise<Territory> {
-    const territory = this.ormRepository.create({ name, start, end, area });
+    const territory = this.ormRepository.create({ name, start, end });
 
     await this.ormRepository.save(territory);
 
@@ -36,6 +35,12 @@ class TerritoryRepository implements ITerritoryRepository {
     });
 
     return territory;
+  }
+
+  public async findAll(): Promise<Territory[] | undefined> {
+    const territories = await this.ormRepository.find();
+
+    return territories;
   }
 }
 export default TerritoryRepository;

@@ -1,6 +1,10 @@
+interface IPoint {
+  x: number;
+  y: number;
+}
+
 export default interface ICreateTerritoryDTO {
   name: string;
-  start: string;
-  end: string;
-  area: number;
+  start: IPoint;
+  end: IPoint;
 }

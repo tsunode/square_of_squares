@@ -4,9 +4,10 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  BeforeInsert,
 } from 'typeorm';
 
-export interface IPoint {
+interface IPoint {
   x: number;
   y: number;
 }
@@ -19,14 +20,31 @@ class Territory {
   @Column()
   name: string;
 
-  @Column({ type: 'point' })
-  start: string;
+  @Column({
+    type: 'point',
+    transformer: {
+      from: point => point,
+      to: (point: IPoint) => `${point.x},${point.y}`,
+    },
+  })
+  start: IPoint;
 
-  @Column({ type: 'point' })
-  end: string;
+  @Column({
+    type: 'point',
+    transformer: {
+      from: point => point,
+      to: (point: IPoint) => `${point.x},${point.y}`,
+    },
+  })
+  end: IPoint;
 
   @Column()
   area: number;
+
+  @BeforeInsert()
+  areaCalculator(): void {
+    this.area = (this.end.x - this.start.x) * (this.end.y - this.start.y);
+  }
 
   @CreateDateColumn()
   created_at: Date;
