@@ -6,24 +6,24 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-interface IPoint {
+export interface IPoint {
   x: number;
   y: number;
 }
 
 @Entity('territories')
-class Customer {
+class Territory {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @Column()
-  start: IPoint;
+  @Column({ type: 'point' })
+  start: string;
 
-  @Column()
-  end: IPoint;
+  @Column({ type: 'point' })
+  end: string;
 
   @Column()
   area: number;
@@ -35,4 +35,4 @@ class Customer {
   updated_at: Date;
 }
 
-export default Customer;
+export default Territory;
