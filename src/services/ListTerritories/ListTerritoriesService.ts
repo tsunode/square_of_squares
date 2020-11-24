@@ -1,12 +1,7 @@
 import { inject, injectable } from 'tsyringe';
-import Territory from 'entities/Territory';
-import AppError from '../../errors/AppError';
-import ITerritoryRepository from '../../repositories/ITerritoryRepository';
 
-interface IPoint {
-  x: number;
-  y: number;
-}
+import Territory from 'entities/Territory';
+import ITerritoryRepository from '../../repositories/ITerritoryRepository';
 
 @injectable()
 class ListTerritoriesService {

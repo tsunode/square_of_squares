@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+
 import CreateTerritoryService from '../services/CreateTerritory/CreateTerritoryService';
 import ListTerritoriesService from '../services/ListTerritories/ListTerritoriesService';
+import RemoveTerritoryService from '../services/RemoveTerritory/RemoveTerritoryService';
 
 class TerritoriesController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -23,6 +25,16 @@ class TerritoriesController {
       count: territories?.length || 0,
       data: territories,
     });
+  }
+
+  public async remove(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const removeTerritory = container.resolve(RemoveTerritoryService);
+
+    await removeTerritory.execute(id);
+
+    return response.json({ error: false });
   }
 }
 export default TerritoriesController;

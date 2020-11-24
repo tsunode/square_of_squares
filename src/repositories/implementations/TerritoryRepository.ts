@@ -23,6 +23,10 @@ class TerritoryRepository implements ITerritoryRepository {
     return territory;
   }
 
+  public async remove(id: string): Promise<void> {
+    await this.ormRepository.delete(id);
+  }
+
   public async findByOverlay({
     start,
     end,
@@ -33,6 +37,12 @@ class TerritoryRepository implements ITerritoryRepository {
     const territory = await this.ormRepository.findOne({
       where: `box(${pointStart}, ${pointEnd}) && box(Territory.start, Territory.end)`,
     });
+
+    return territory;
+  }
+
+  public async findById(id: string): Promise<Territory | undefined> {
+    const territory = await this.ormRepository.findOne(id);
 
     return territory;
   }
