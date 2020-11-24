@@ -14,16 +14,18 @@ export default class CreateSquares1606192717599 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'x',
-            type: 'decimal',
-            precision: 10,
-            scale: 1,
+            name: 'start',
+            type: 'point',
           },
           {
-            name: 'y',
+            name: 'end',
+            type: 'point',
+          },
+          {
+            name: 'area',
             type: 'decimal',
             precision: 10,
-            scale: 1,
+            scale: 2,
           },
           {
             name: 'territory_id',

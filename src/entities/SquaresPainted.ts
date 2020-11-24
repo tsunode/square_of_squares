@@ -7,18 +7,33 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import Territory from './Territory';
+import Territory, { IPoint } from './Territory';
 
 @Entity('squares_painted')
 class SquaresPainted {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  x: number;
+  @Column({
+    type: 'point',
+    transformer: {
+      from: point => point,
+      to: (point: IPoint) => `${point.x},${point.y}`,
+    },
+  })
+  start: IPoint;
+
+  @Column({
+    type: 'point',
+    transformer: {
+      from: point => point,
+      to: (point: IPoint) => `${point.x},${point.y}`,
+    },
+  })
+  end: IPoint;
 
   @Column()
-  y: number;
+  area: number;
 
   @Column()
   territory_id: string;

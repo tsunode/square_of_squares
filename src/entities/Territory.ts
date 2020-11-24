@@ -10,7 +10,7 @@ import {
 
 import SquaresPainted from './SquaresPainted';
 
-interface IPoint {
+export interface IPoint {
   x: number;
   y: number;
 }
