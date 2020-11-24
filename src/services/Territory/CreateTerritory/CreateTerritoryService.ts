@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import Territory from 'entities/Territory';
-import AppError from '../../errors/AppError';
-import ITerritoryRepository from '../../repositories/ITerritoryRepository';
+import AppError from '../../../errors/AppError';
+import ITerritoryRepository from '../../../repositories/ITerritoryRepository';
 
 interface IPoint {
   x: number;
@@ -22,7 +22,7 @@ class CreateTerritoryService {
   ) {}
 
   public async execute({ name, end, start }: IRequest): Promise<Territory> {
-    const territoryFound = await this.territoryRepository.findByOverlay({
+    const territoryFound = await this.territoryRepository.findByPointOverlay({
       start,
       end,
     });

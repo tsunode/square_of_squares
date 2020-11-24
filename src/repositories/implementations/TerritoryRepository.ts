@@ -1,7 +1,8 @@
-import ICreateTerritoryDTO from 'services/CreateTerritory/ICreateTerritoryDTO';
-import IFindByOverlayDTO from 'services/CreateTerritory/IFindByOverlayDTO';
 import { getRepository, Repository } from 'typeorm';
-import Territory from '../../entities/Territory';
+
+import Territory from '@entities/Territory';
+import IFindByPointDTO from '@services/Territory/CreateTerritory/IFindByPointDTO';
+import ICreateTerritoryDTO from '@services/Territory/CreateTerritory/ICreateTerritoryDTO';
 import ITerritoryRepository from '../ITerritoryRepository';
 
 class TerritoryRepository implements ITerritoryRepository {
@@ -27,15 +28,29 @@ class TerritoryRepository implements ITerritoryRepository {
     await this.ormRepository.delete(id);
   }
 
-  public async findByOverlay({
+  public async findByPointOverlay({
     start,
     end,
-  }: IFindByOverlayDTO): Promise<Territory | undefined> {
+  }: IFindByPointDTO): Promise<Territory | undefined> {
     const pointStart = `point(${start.x},${start.y})`;
     const pointEnd = `point(${end.x}, ${end.y})`;
 
     const territory = await this.ormRepository.findOne({
       where: `box(${pointStart}, ${pointEnd}) && box(Territory.start, Territory.end)`,
+    });
+
+    return territory;
+  }
+
+  public async findByPointContains({
+    start,
+    end,
+  }: IFindByPointDTO): Promise<Territory | undefined> {
+    const pointStart = `point(${start.x},${start.y})`;
+    const pointEnd = `point(${end.x}, ${end.y})`;
+
+    const territory = await this.ormRepository.findOne({
+      where: `box(${pointStart}, ${pointEnd}) <@ box(Territory.start, Territory.end)`,
     });
 
     return territory;

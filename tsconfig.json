@@ -12,7 +12,14 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@services/*": ["services/*"],
+      "@repositories/*": ["repositories/*"],
+      "@entities/*": ["entities/*"],
+      "@controllers/*": ["controllers/*"],
+      "@errors/*": ["errors/*"],
+    }
   },
   "exclude": ["node_modules", "prettier.config.js"]
 }

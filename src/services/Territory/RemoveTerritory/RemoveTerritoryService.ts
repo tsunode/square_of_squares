@@ -1,24 +1,23 @@
 import { inject, injectable } from 'tsyringe';
 
-import Territory from 'entities/Territory';
-import ITerritoryRepository from '../../repositories/ITerritoryRepository';
-import AppError from '../../errors/AppError';
+import AppError from '../../../errors/AppError';
+import ITerritoryRepository from '../../../repositories/ITerritoryRepository';
 
 @injectable()
-class ListTerritoriesService {
+class RemoveTerritoryService {
   constructor(
     @inject('TerritoryRepository')
     private territoryRepository: ITerritoryRepository,
   ) {}
 
-  public async execute(id: string): Promise<Territory> {
+  public async execute(id: string): Promise<void> {
     const territory = await this.territoryRepository.findById(id);
 
     if (!territory) {
       throw new AppError('This territory was not found.');
     }
 
-    return territory;
+    await this.territoryRepository.remove(id);
   }
 }
-export default ListTerritoriesService;
+export default RemoveTerritoryService;

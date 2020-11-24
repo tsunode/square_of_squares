@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
-import CreateTerritoryService from '../services/CreateTerritory/CreateTerritoryService';
-import ListTerritoriesService from '../services/ListTerritories/ListTerritoriesService';
-import RemoveTerritoryService from '../services/RemoveTerritory/RemoveTerritoryService';
-import ShowTerritoryService from '../services/ShowTerritory/ShowTerritoryService';
+import CreateTerritoryService from '../services/Territory/CreateTerritory/CreateTerritoryService';
+import ListTerritoriesService from '../services/Territory/ListTerritories/ListTerritoriesService';
+import RemoveTerritoryService from '../services/Territory/RemoveTerritory/RemoveTerritoryService';
+import ShowTerritoryService from '../services/Territory/ShowTerritory/ShowTerritoryService';
 
 class TerritoriesController {
   public async create(request: Request, response: Response): Promise<Response> {

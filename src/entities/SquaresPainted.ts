@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 import Territory, { IPoint } from './Territory';
@@ -39,6 +40,7 @@ class SquaresPainted {
   territory_id: string;
 
   @ManyToOne(() => Territory)
+  @JoinColumn({ name: 'territory_id' })
   territory: Territory;
 
   @CreateDateColumn()

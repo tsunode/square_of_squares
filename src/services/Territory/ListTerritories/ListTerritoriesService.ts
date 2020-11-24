@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import Territory from 'entities/Territory';
-import ITerritoryRepository from '../../repositories/ITerritoryRepository';
+import ITerritoryRepository from '../../../repositories/ITerritoryRepository';
 
 @injectable()
 class ListTerritoriesService {
