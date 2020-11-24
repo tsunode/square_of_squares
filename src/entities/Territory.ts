@@ -5,7 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   BeforeInsert,
+  OneToMany,
 } from 'typeorm';
+
+import SquaresPainted from './SquaresPainted';
 
 interface IPoint {
   x: number;
@@ -40,6 +43,9 @@ class Territory {
 
   @Column()
   area: number;
+
+  @OneToMany(() => SquaresPainted, squaresPainted => squaresPainted.territory)
+  squaresPainted: SquaresPainted;
 
   @BeforeInsert()
   areaCalculator(): void {
