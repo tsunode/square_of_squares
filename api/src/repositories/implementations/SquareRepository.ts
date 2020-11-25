@@ -36,8 +36,6 @@ class SquareRepository implements ISquareRepository {
     take,
     order,
   }: IFindAllSquadsPaintedDTO): Promise<SquaresPainted[] | undefined> {
-    console.log(page, take);
-
     const squaresPainted = this.ormRepository.find({
       take,
       skip: take * (page - 1),
