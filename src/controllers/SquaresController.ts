@@ -1,3 +1,4 @@
+import ListSquareService from '@services/Square/ListSquares/ListSquareService';
 import ShowSquareService from '@services/Square/ShowSquare/ShowSquareService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
@@ -27,6 +28,23 @@ class SquaresController {
 
     return response.json({
       data: square,
+      error: false,
+    });
+  }
+
+  public async index(request: Request, response: Response): Promise<Response> {
+    const { take, page, order } = request.query;
+
+    const listSquare = container.resolve(ListSquareService);
+
+    const squaresPainted = await listSquare.execute({
+      take: Number(take) || 5,
+      page: Number(page) || 1,
+      order: order === 'asc' ? 'ASC' : 'DESC',
+    });
+
+    return response.json({
+      data: squaresPainted,
       error: false,
     });
   }

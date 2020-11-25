@@ -16,7 +16,7 @@ export default interface ITerritoryRepository {
     data: IFindTerritoryByPointDTO,
   ): Promise<Territory | undefined>;
   findById(data: IFindTerritoryByIdDTO): Promise<Territory | undefined>;
-  findAll(): Promise<IFindAll[] | undefined>;
+  findAll(order: string): Promise<IFindAll[] | undefined>;
   create(data: ICreateTerritoryDTO): Promise<Territory>;
   remove(id: string): Promise<void>;
 }

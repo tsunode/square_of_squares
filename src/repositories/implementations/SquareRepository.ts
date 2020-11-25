@@ -3,6 +3,7 @@ import { getRepository, Repository } from 'typeorm';
 import SquaresPainted from 'entities/SquaresPainted';
 import ICreateSquareDTO from '@services/Square/CreateSquare/ICreateSquareDTO';
 import IFindSquadByPointDTO from '@services/Square/ShowSquare/IFindSquadByPointDTO';
+import IFindAllSquadsPaintedDTO from '@services/Square/ListSquares/IFindAllSquadsPaintedDTO';
 import ISquareRepository from '../ISquareRepository';
 
 class SquareRepository implements ISquareRepository {
@@ -30,6 +31,24 @@ class SquareRepository implements ISquareRepository {
     return squarePainted;
   }
 
+  public async findAll({
+    page,
+    take,
+    order,
+  }: IFindAllSquadsPaintedDTO): Promise<SquaresPainted[] | undefined> {
+    console.log(page, take);
+
+    const squaresPainted = this.ormRepository.find({
+      take,
+      skip: take * (page - 1),
+      order: {
+        created_at: order,
+      },
+    });
+
+    return squaresPainted;
+  }
+
   public async findByPoint({
     start,
     end,
@@ -37,7 +56,7 @@ class SquareRepository implements ISquareRepository {
     const pointStart = `point(${start.x},${start.y})`;
     const pointEnd = `point(${end.x}, ${end.y})`;
     const squarePainted = this.ormRepository.findOne({
-      where: `box(${pointStart}, ${pointEnd}) <@ box(SquaresPainted.start, SquaresPainted.end)`,
+      where: `box(${pointStart}, ${pointEnd}) @> box(SquaresPainted.start, SquaresPainted.end)`,
     });
 
     return squarePainted;

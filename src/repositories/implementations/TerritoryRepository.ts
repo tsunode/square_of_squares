@@ -74,14 +74,48 @@ class TerritoryRepository implements ITerritoryRepository {
     return territory;
   }
 
-  public async findAll(): Promise<IFindAll[] | undefined> {
-    const territories = await this.ormRepository
-      .createQueryBuilder('territory')
-      .select('territory.*')
-      .addSelect('COUNT(squares_painted.territory_id)', 'painted_area')
-      .leftJoin('territory.squares_painted', 'squares_painted')
-      .groupBy('territory.id')
-      .getRawMany<IFindAll>();
+  public async findAll(order: string): Promise<IFindAll[] | undefined> {
+    let territories;
+
+    switch (order) {
+      case 'mpa': // most painted area
+        territories = await this.ormRepository
+          .createQueryBuilder('territory')
+          .select('territory.*')
+          .addSelect('COUNT(squares_painted.territory_id)', 'painted_area')
+          .addSelect('SUM(squares_painted.area)', 'painted_area_value')
+          .leftJoin('territory.squares_painted', 'squares_painted')
+          .groupBy('territory.id')
+          .orderBy('painted_area_value', 'DESC')
+          .getRawMany<IFindAll>();
+
+        break;
+      case 'mppa': // most proportional painted area
+        territories = await this.ormRepository
+          .createQueryBuilder('territory')
+          .select('territory.*')
+          .addSelect('COUNT(squares_painted.territory_id)', 'painted_area')
+          .addSelect(
+            'territory.area / SUM(squares_painted.area)',
+            'painted_area_value',
+          )
+          .leftJoin('territory.squares_painted', 'squares_painted')
+          .groupBy('territory.id')
+          .orderBy('painted_area_value', 'DESC')
+          .getRawMany<IFindAll>();
+
+        break;
+      default:
+        territories = await this.ormRepository
+          .createQueryBuilder('territory')
+          .select('territory.*')
+          .addSelect('COUNT(squares_painted.territory_id)', 'painted_area')
+          .leftJoin('territory.squares_painted', 'squares_painted')
+          .groupBy('territory.id')
+          .getRawMany<IFindAll>();
+
+        break;
+    }
 
     return territories;
   }

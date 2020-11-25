@@ -20,9 +20,11 @@ class TerritoriesController {
   }
 
   public async index(request: Request, response: Response): Promise<Response> {
+    const { order } = request.query;
+
     const listTerritories = container.resolve(ListTerritoriesService);
 
-    const territories = await listTerritories.execute();
+    const territories = await listTerritories.execute(order as string);
 
     return response.json({
       count: territories?.length || 0,

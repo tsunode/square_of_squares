@@ -10,8 +10,8 @@ class ListTerritoriesService {
     private territoryRepository: ITerritoryRepository,
   ) {}
 
-  public async execute(): Promise<Territory[] | undefined> {
-    const territories = await this.territoryRepository.findAll();
+  public async execute(order: string): Promise<Territory[] | undefined> {
+    const territories = await this.territoryRepository.findAll(order);
 
     return territories;
   }
