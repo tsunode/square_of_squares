@@ -1,3 +1,4 @@
+import ShowSquareService from '@services/Square/ShowSquare/ShowSquareService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -14,15 +15,20 @@ class SquaresController {
     return response.json({ data: square, error: false });
   }
 
-  // public async index(request: Request, response: Response): Promise<Response> {
-  //   const listTerritories = container.resolve(ListTerritoriesService);
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { startX, startY, endX, endY } = request.params;
 
-  //   const territories = await listTerritories.execute();
+    const showSquare = container.resolve(ShowSquareService);
 
-  //   return response.json({
-  //     count: territories?.length || 0,
-  //     data: territories,
-  //   });
-  // }
+    const square = await showSquare.execute({
+      start: { x: Number(startX), y: Number(startY) },
+      end: { x: Number(endX), y: Number(endY) },
+    });
+
+    return response.json({
+      data: square,
+      error: false,
+    });
+  }
 }
 export default SquaresController;

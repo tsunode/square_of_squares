@@ -1,6 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 
-import SquaresPainted from '@entities/SquaresPainted';
 import ISquareRepository from '@repositories/ISquareRepository';
 import ITerritoryRepository from '@repositories/ITerritoryRepository';
 import AppError from '@errors/AppError';
@@ -15,12 +14,14 @@ interface IRequest {
   end: IPoint;
 }
 
-interface IResponse extends SquaresPainted {
+interface IResponse {
+  start: IPoint;
+  end: IPoint;
   painted: boolean;
 }
 
 @injectable()
-class CreateSquareService {
+class ShowSquareService {
   constructor(
     @inject('SquareRepository')
     private squareRepository: ISquareRepository,
@@ -29,13 +30,6 @@ class CreateSquareService {
   ) {}
 
   public async execute({ end, start }: IRequest): Promise<IResponse> {
-    const area = (end.x - start.x) * (end.y - start.y);
-    const isSquare = Number.isInteger(Math.sqrt(area));
-
-    if (!isSquare) {
-      throw new AppError('The parameters do not correspond to a square');
-    }
-
     const territoryFound = await this.territoryRepository.findByPointContains({
       start,
       end,
@@ -45,23 +39,19 @@ class CreateSquareService {
       throw new AppError('This square does not belong to any territory');
     }
 
-    const square = await this.squareRepository.findByPoint({
+    const squarePainted = await this.squareRepository.findByPoint({
       start,
       end,
     });
 
-    if (square) {
-      throw new AppError('This square already create and painted');
-    }
-
-    const squarePainted = await this.squareRepository.create({
-      territory_id: territoryFound.id,
+    const response = {
       start,
       end,
-      area,
-    });
+      painted: !!squarePainted,
+    };
 
-    return { ...squarePainted, painted: true };
+    return response;
   }
 }
-export default CreateSquareService;
+
+export default ShowSquareService;
