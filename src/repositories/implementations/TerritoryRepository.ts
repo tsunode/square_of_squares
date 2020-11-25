@@ -1,9 +1,10 @@
 import { getRepository, Repository } from 'typeorm';
 
 import Territory from '@entities/Territory';
-import IFindByPointDTO from '@services/Territory/CreateTerritory/IFindByPointDTO';
+import IFindTerritoryByPointDTO from '@services/Territory/CreateTerritory/IFindTerritoryByPointDTO';
 import ICreateTerritoryDTO from '@services/Territory/CreateTerritory/ICreateTerritoryDTO';
-import ITerritoryRepository from '../ITerritoryRepository';
+import IFindTerritoryByIdDTO from '@services/Territory/ShowTerritory/IFindTerritoryByIdDTO';
+import ITerritoryRepository, { IFindAll } from '../ITerritoryRepository';
 
 class TerritoryRepository implements ITerritoryRepository {
   private ormRepository: Repository<Territory>;
@@ -31,7 +32,7 @@ class TerritoryRepository implements ITerritoryRepository {
   public async findByPointOverlay({
     start,
     end,
-  }: IFindByPointDTO): Promise<Territory | undefined> {
+  }: IFindTerritoryByPointDTO): Promise<Territory | undefined> {
     const pointStart = `point(${start.x},${start.y})`;
     const pointEnd = `point(${end.x}, ${end.y})`;
 
@@ -45,7 +46,7 @@ class TerritoryRepository implements ITerritoryRepository {
   public async findByPointContains({
     start,
     end,
-  }: IFindByPointDTO): Promise<Territory | undefined> {
+  }: IFindTerritoryByPointDTO): Promise<Territory | undefined> {
     const pointStart = `point(${start.x},${start.y})`;
     const pointEnd = `point(${end.x}, ${end.y})`;
 
@@ -56,14 +57,31 @@ class TerritoryRepository implements ITerritoryRepository {
     return territory;
   }
 
-  public async findById(id: string): Promise<Territory | undefined> {
-    const territory = await this.ormRepository.findOne(id);
+  public async findById({
+    id,
+    withpainted,
+  }: IFindTerritoryByIdDTO): Promise<Territory | undefined> {
+    let territory;
+
+    if (withpainted) {
+      territory = await this.ormRepository.findOne(id, {
+        relations: ['squares_painted'],
+      });
+    } else {
+      territory = await this.ormRepository.findOne(id);
+    }
 
     return territory;
   }
 
-  public async findAll(): Promise<Territory[] | undefined> {
-    const territories = await this.ormRepository.find();
+  public async findAll(): Promise<IFindAll[] | undefined> {
+    const territories = await this.ormRepository
+      .createQueryBuilder('territory')
+      .select('territory.*')
+      .addSelect('COUNT(squares_painted.territory_id)', 'painted_area')
+      .leftJoin('territory.squares_painted', 'squares_painted')
+      .groupBy('territory.id')
+      .getRawMany<IFindAll>();
 
     return territories;
   }

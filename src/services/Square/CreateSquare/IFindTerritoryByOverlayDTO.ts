@@ -3,7 +3,7 @@ interface IPoint {
   y: number;
 }
 
-export default interface IFindByPointDTO {
+export default interface IFindTerritoryByOverlayDTO {
   start: IPoint;
   end: IPoint;
 }

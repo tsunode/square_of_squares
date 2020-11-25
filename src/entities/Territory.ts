@@ -45,7 +45,7 @@ class Territory {
   area: number;
 
   @OneToMany(() => SquaresPainted, squaresPainted => squaresPainted.territory)
-  squaresPainted: SquaresPainted[];
+  squares_painted: SquaresPainted[];
 
   @BeforeInsert()
   areaCalculator(): void {

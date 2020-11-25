@@ -4,4 +4,5 @@ import ICreateSquareDTO from '@services/Square/CreateSquare/ICreateSquareDTO';
 export default interface ISquareRepository {
   // findByPointOverlay(data: IFindByPointDTO): Promise<Territory | undefined>;
   create(data: ICreateSquareDTO): Promise<SquaresPainted>;
+  countByTerritory(id: string): Promise<number>;
 }

@@ -28,5 +28,11 @@ class SquareRepository implements ISquareRepository {
 
     return squarePainted;
   }
+
+  public async countByTerritory(id: string): Promise<number> {
+    const count = this.ormRepository.count({ territory_id: id });
+
+    return count;
+  }
 }
 export default SquareRepository;

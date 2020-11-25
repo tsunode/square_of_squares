@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-
 import CreateTerritoryService from '../services/Territory/CreateTerritory/CreateTerritoryService';
 import ListTerritoriesService from '../services/Territory/ListTerritories/ListTerritoriesService';
 import RemoveTerritoryService from '../services/Territory/RemoveTerritory/RemoveTerritoryService';
@@ -14,7 +13,10 @@ class TerritoriesController {
 
     const territory = await createTerritory.execute({ name, start, end });
 
-    return response.json({ data: territory, error: false });
+    return response.json({
+      data: { territory, painted_area: 0 },
+      error: false,
+    });
   }
 
   public async index(request: Request, response: Response): Promise<Response> {
@@ -30,9 +32,14 @@ class TerritoriesController {
 
   public async show(request: Request, response: Response): Promise<Response> {
     const { id } = request.params;
+    const { withpainted } = request.query;
+
     const showTerritory = container.resolve(ShowTerritoryService);
 
-    const territory = await showTerritory.execute(id);
+    const territory = await showTerritory.execute({
+      id,
+      withpainted: withpainted === 'true',
+    });
 
     return response.json({ data: territory, error: false });
   }
