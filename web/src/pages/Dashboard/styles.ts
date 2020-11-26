@@ -74,6 +74,7 @@ export const Title = styled.h2`
 
 export const Squares = styled.div`
   height: 60%;
+  min-height: 200px;
 `;
 
 export const Errors = styled.div`
@@ -88,7 +89,7 @@ export const Errors = styled.div`
   }
 
   table tr td:first-child {
-    width: 86%;
+    width: 80%;
     border-radius: 5px 0 0px 5px;
   }
 

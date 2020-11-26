@@ -1,3 +1,4 @@
+import IListErrorDTO from '@errors/dtos/IListErrorDTO';
 import ICreateErrorDTO from '@errors/dtos/ICreateErrorDTO';
 import IErrorRepository from '@repositories/IErrorRepository';
 import { getMongoRepository, MongoRepository } from 'typeorm';
@@ -20,6 +21,29 @@ class ErrorRepository implements IErrorRepository {
     await this.ormRepository.save(error);
 
     return error;
+  }
+
+  public async findAll({
+    page,
+    take,
+    route,
+  }: IListErrorDTO): Promise<Error[] | undefined> {
+    let errors;
+
+    if (route) {
+      errors = this.ormRepository.find({
+        where: {
+          route,
+        },
+      });
+    } else {
+      errors = this.ormRepository.find({
+        take,
+        skip: take * (page - 1),
+      });
+    }
+
+    return errors;
   }
 }
 

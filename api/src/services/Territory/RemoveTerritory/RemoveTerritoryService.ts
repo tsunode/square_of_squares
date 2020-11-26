@@ -1,3 +1,4 @@
+import IErrorRepository from '@repositories/IErrorRepository';
 import { inject, injectable } from 'tsyringe';
 
 import AppError from '../../../errors/AppError';
@@ -8,13 +9,23 @@ class RemoveTerritoryService {
   constructor(
     @inject('TerritoryRepository')
     private territoryRepository: ITerritoryRepository,
+
+    @inject('ErrorRepository')
+    private errorRepository: IErrorRepository,
   ) {}
 
   public async execute(id: string): Promise<void> {
-    const territory = await this.territoryRepository.findById(id);
+    const territory = await this.territoryRepository.findById({ id });
 
     if (!territory) {
-      throw new AppError('This territory was not found.');
+      const content = 'This territory was not found.';
+
+      await this.errorRepository.create({
+        content,
+        route: '/territories/not-found',
+      });
+
+      throw new AppError(content);
     }
 
     await this.territoryRepository.remove(id);

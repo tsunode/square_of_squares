@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import Territory from 'entities/Territory';
+import IErrorRepository from '@repositories/IErrorRepository';
 import AppError from '../../../errors/AppError';
 import ITerritoryRepository from '../../../repositories/ITerritoryRepository';
 
@@ -19,6 +20,9 @@ class CreateTerritoryService {
   constructor(
     @inject('TerritoryRepository')
     private territoryRepository: ITerritoryRepository,
+
+    @inject('ErrorRepository')
+    private errorRepository: IErrorRepository,
   ) {}
 
   public async execute({ name, end, start }: IRequest): Promise<Territory> {
@@ -28,7 +32,14 @@ class CreateTerritoryService {
     });
 
     if (territoryFound) {
-      throw new AppError('This new territory overlays another territory');
+      const content = 'This new territory overlays another territory';
+
+      await this.errorRepository.create({
+        content,
+        route: '/territories/territory-overlay',
+      });
+
+      throw new AppError(content);
     }
 
     const territory = await this.territoryRepository.create({

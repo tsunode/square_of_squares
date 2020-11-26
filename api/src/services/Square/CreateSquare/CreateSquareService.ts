@@ -45,7 +45,7 @@ class CreateSquareService {
         route: '/squares/not-square',
       });
 
-      throw new AppError('The parameters do not correspond to a square');
+      throw new AppError(content);
     }
 
     const territoryFound = await this.territoryRepository.findByPointContains({
@@ -61,7 +61,7 @@ class CreateSquareService {
         route: '/squares/not-found',
       });
 
-      throw new AppError('This square does not belong to any territory');
+      throw new AppError(content);
     }
 
     const square = await this.squareRepository.findByPoint({
@@ -77,7 +77,7 @@ class CreateSquareService {
         route: '/squares/not-created',
       });
 
-      throw new AppError('This square already create and painted');
+      throw new AppError(content);
     }
 
     const squarePainted = await this.squareRepository.create({

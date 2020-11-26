@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import ISquareRepository from '@repositories/ISquareRepository';
 import ITerritoryRepository from '@repositories/ITerritoryRepository';
 import AppError from '@errors/AppError';
+import IErrorRepository from '@repositories/IErrorRepository';
 
 interface IPoint {
   x: number;
@@ -25,8 +26,12 @@ class ShowSquareService {
   constructor(
     @inject('SquareRepository')
     private squareRepository: ISquareRepository,
+
     @inject('TerritoryRepository')
     private territoryRepository: ITerritoryRepository,
+
+    @inject('ErrorRepository')
+    private errorRepository: IErrorRepository,
   ) {}
 
   public async execute({ end, start }: IRequest): Promise<IResponse> {
@@ -36,7 +41,14 @@ class ShowSquareService {
     });
 
     if (!territoryFound) {
-      throw new AppError('This square does not belong to any territory');
+      const content = 'This square does not belong to any territory';
+
+      await this.errorRepository.create({
+        content,
+        route: '/squares/not-found',
+      });
+
+      throw new AppError(content);
     }
 
     const squarePainted = await this.squareRepository.findByPoint({

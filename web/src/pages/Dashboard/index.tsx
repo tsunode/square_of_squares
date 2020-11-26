@@ -33,6 +33,12 @@ export interface Square {
   created_at_formated: string;
 }
 
+interface Error {
+  id: string;
+  content: string;
+  created_at_formated: string;
+}
+
 interface ResponseTerritories {
   count: number;
   data: Territory[];
@@ -44,9 +50,16 @@ interface ResponseSquares {
   error: boolean;
 }
 
+interface ResponseErrors {
+  data: Error[];
+  error: boolean;
+}
+
 const Dashboard: React.FC = () => {
   const [territories, setTerritories] = useState<Territory[]>();
   const [squares, setSquares] = useState<Square[]>();
+  const [errors, setErrors] = useState<Error[]>();
+
   const [order, setOrder] = useState('mpa');
 
   useEffect(() => {
@@ -64,12 +77,13 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     async function handleDashboardData(): Promise<void> {
-      const [responseSquares] = await Promise.all([
+      const [responseSquares, responseErrors] = await Promise.all([
         api.get<ResponseSquares>('squares'),
+        api.get<ResponseErrors>('errors'),
       ]);
 
-      console.log(responseSquares);
       setSquares(responseSquares.data.data);
+      setErrors(responseErrors.data.data);
     }
     handleDashboardData();
   }, []);
@@ -107,7 +121,9 @@ const Dashboard: React.FC = () => {
               territories.map(territory => (
                 <LongCard key={territory.id} data={territory} />
               ))}
-            {!territories && <Title>Não há territórios cadastrados</Title>}
+            {!territories && (
+              <Title>O Servidor está desligado ou desconectado</Title>
+            )}
           </div>
         </SectionTerritory>
 
@@ -129,26 +145,12 @@ const Dashboard: React.FC = () => {
 
               <table>
                 <tbody>
-                  <tr>
-                    <td>Teste</td>
-                    <td>25/12/19</td>
-                  </tr>
-                  <tr>
-                    <td>Teste</td>
-                    <td>25/12/19</td>
-                  </tr>
-                  <tr>
-                    <td>Teste</td>
-                    <td>25/12/19</td>
-                  </tr>
-                  <tr>
-                    <td>Teste</td>
-                    <td>25/12/19</td>
-                  </tr>
-                  <tr>
-                    <td>Teste</td>
-                    <td>25/12/19</td>
-                  </tr>
+                  {errors?.map(error => (
+                    <tr key={error.id}>
+                      <td>{error.content}</td>
+                      <td>{error.created_at_formated}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </Errors>
