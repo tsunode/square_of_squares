@@ -30,16 +30,18 @@ export interface Square {
   start: { x: number; y: number };
   end: { x: number; y: number };
   territory_id: string;
-  created_at: Date;
+  created_at_formated: string;
 }
 
 interface ResponseTerritories {
   count: number;
   data: Territory[];
+  error: boolean;
 }
 
 interface ResponseSquares {
   data: Square[];
+  error: boolean;
 }
 
 const Dashboard: React.FC = () => {
@@ -101,10 +103,6 @@ const Dashboard: React.FC = () => {
           </InputRadio>
 
           <div>
-            {territories &&
-              territories.map(territory => (
-                <LongCard key={territory.id} data={territory} />
-              ))}
             {territories &&
               territories.map(territory => (
                 <LongCard key={territory.id} data={territory} />

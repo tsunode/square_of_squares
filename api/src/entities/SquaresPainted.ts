@@ -1,3 +1,6 @@
+import { Expose } from 'class-transformer';
+import { format } from 'date-fns-tz';
+
 import {
   Entity,
   Column,
@@ -48,6 +51,13 @@ class SquaresPainted {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @Expose({ name: 'created_at_formated' })
+  getCreateAtFormated(): string {
+    return format(this.created_at, 'dd/MM/yyyy HH:mm', {
+      timeZone: 'America/Sao_Paulo',
+    });
+  }
 }
 
 export default SquaresPainted;

@@ -32,7 +32,7 @@ const LineCard: React.FC<LineCardProps> = ({ data }) => {
           <span>
             Pertence ao Território: <br /> {data.id}
           </span>
-          <span>Pintado em {data.created_at}</span>
+          <span>Pintado em {data.created_at_formated}</span>
         </ContentRight>
       </Content>
     </Container>

@@ -48,10 +48,6 @@ export const Content = styled.main`
 export const SectionTerritory = styled.section`
   flex: 1;
   height: 100%;
-  /* div:nth-child(2) {
-    max-height: calc(100vh - 156px);
-    overflow-y: auto;
-  } */
 `;
 
 export const SectionReport = styled.section`
@@ -60,6 +56,7 @@ export const SectionReport = styled.section`
   position: relative;
 
   > div {
+    width: 50%;
     position: fixed;
   }
 `;

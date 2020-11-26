@@ -15,6 +15,8 @@
   "dependencies": {
     "class-transformer": "^0.3.1",
     "cors": "^2.8.5",
+    "date-fns": "^2.16.1",
+    "date-fns-tz": "^1.0.12",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "pg": "^8.5.1",

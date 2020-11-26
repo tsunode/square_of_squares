@@ -1,5 +1,6 @@
 import ListSquareService from '@services/Square/ListSquares/ListSquareService';
 import ShowSquareService from '@services/Square/ShowSquare/ShowSquareService';
+import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
@@ -44,7 +45,7 @@ class SquaresController {
     });
 
     return response.json({
-      data: squaresPainted,
+      data: classToClass(squaresPainted),
       error: false,
     });
   }
