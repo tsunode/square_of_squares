@@ -1,10 +1,9 @@
-import { ImTable2 } from 'react-icons/im';
-import { AiOutlineAreaChart, AiFillFormatPainter } from 'react-icons/ai';
+import { FiSquare } from 'react-icons/fi';
 import { Container, Content, ContentLeft, ContentRight } from './styles';
-import { Territory } from '../../pages/Dashboard';
+import { Square } from '../../pages/Dashboard';
 
 interface LineCardProps {
-  data?: Territory;
+  data: Square;
 }
 
 const LineCard: React.FC<LineCardProps> = ({ data }) => {
@@ -12,8 +11,8 @@ const LineCard: React.FC<LineCardProps> = ({ data }) => {
     <Container>
       <Content>
         <ContentLeft>
+          <FiSquare />
           <div>
-            <ImTable2 />
             <span>
               Começo
               <span>
@@ -30,10 +29,10 @@ const LineCard: React.FC<LineCardProps> = ({ data }) => {
         </ContentLeft>
 
         <ContentRight>
-          <div>
-            <span>Começo</span>
-            <span>Fim</span>
-          </div>
+          <span>
+            Pertence ao Território: <br /> {data.id}
+          </span>
+          <span>Pintado em {data.created_at}</span>
         </ContentRight>
       </Content>
     </Container>

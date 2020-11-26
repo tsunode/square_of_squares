@@ -48,11 +48,20 @@ export const Content = styled.main`
 export const SectionTerritory = styled.section`
   flex: 1;
   height: 100%;
+  /* div:nth-child(2) {
+    max-height: calc(100vh - 156px);
+    overflow-y: auto;
+  } */
 `;
 
 export const SectionReport = styled.section`
   flex: 1;
   height: 100%;
+  position: relative;
+
+  > div {
+    position: fixed;
+  }
 `;
 
 export const Title = styled.h2`
@@ -67,11 +76,26 @@ export const Title = styled.h2`
 `;
 
 export const Squares = styled.div`
-  /* background-color: #f60; */
-  height: 50%;
+  height: 60%;
 `;
 
 export const Errors = styled.div`
-  /* background-color: #f69; */
-  height: 50%;
+  table {
+    border-spacing: 0 5px;
+    margin: 10px auto auto;
+  }
+
+  table td {
+    background-color: #ac6a6a;
+    padding: 5px;
+  }
+
+  table tr td:first-child {
+    width: 86%;
+    border-radius: 5px 0 0px 5px;
+  }
+
+  table tr td:last-child {
+    border-radius: 0px 5px 5px 0px;
+  }
 `;

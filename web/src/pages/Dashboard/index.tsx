@@ -13,6 +13,7 @@ import {
 import Header from '../../components/Header';
 import LongCard from '../../components/LongCard';
 import api from '../../services/api';
+import LineCard from '../../components/LineCard';
 
 export interface Territory {
   id: string;
@@ -23,13 +24,27 @@ export interface Territory {
   painted_area: number;
 }
 
+export interface Square {
+  id: string;
+  area: number;
+  start: { x: number; y: number };
+  end: { x: number; y: number };
+  territory_id: string;
+  created_at: Date;
+}
+
 interface ResponseTerritories {
   count: number;
   data: Territory[];
 }
 
+interface ResponseSquares {
+  data: Square[];
+}
+
 const Dashboard: React.FC = () => {
   const [territories, setTerritories] = useState<Territory[]>();
+  const [squares, setSquares] = useState<Square[]>();
   const [order, setOrder] = useState('mpa');
 
   useEffect(() => {
@@ -48,10 +63,11 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     async function handleDashboardData(): Promise<void> {
       const [responseSquares] = await Promise.all([
-        api.get<ResponseTerritories>('squares'),
+        api.get<ResponseSquares>('squares'),
       ]);
 
       console.log(responseSquares);
+      setSquares(responseSquares.data.data);
     }
     handleDashboardData();
   }, []);
@@ -89,18 +105,56 @@ const Dashboard: React.FC = () => {
               territories.map(territory => (
                 <LongCard key={territory.id} data={territory} />
               ))}
+            {territories &&
+              territories.map(territory => (
+                <LongCard key={territory.id} data={territory} />
+              ))}
             {!territories && <Title>Não há territórios cadastrados</Title>}
           </div>
         </SectionTerritory>
 
         <SectionReport>
-          <Squares>
-            <Title>Últimos 5 Quadrados Pintados</Title>
-          </Squares>
+          <div>
+            <Squares>
+              <Title>Últimos 5 Quadrados Pintados</Title>
 
-          <Errors>
-            <Title>Últimos 5 Erros</Title>
-          </Errors>
+              <div>
+                {squares &&
+                  squares.map(square => (
+                    <LineCard key={square.id} data={square} />
+                  ))}
+              </div>
+            </Squares>
+
+            <Errors>
+              <Title>Últimos 5 Erros</Title>
+
+              <table>
+                <tbody>
+                  <tr>
+                    <td>Teste</td>
+                    <td>25/12/19</td>
+                  </tr>
+                  <tr>
+                    <td>Teste</td>
+                    <td>25/12/19</td>
+                  </tr>
+                  <tr>
+                    <td>Teste</td>
+                    <td>25/12/19</td>
+                  </tr>
+                  <tr>
+                    <td>Teste</td>
+                    <td>25/12/19</td>
+                  </tr>
+                  <tr>
+                    <td>Teste</td>
+                    <td>25/12/19</td>
+                  </tr>
+                </tbody>
+              </table>
+            </Errors>
+          </div>
         </SectionReport>
       </Content>
     </Container>
