@@ -3,6 +3,7 @@ import IFindTerritoryByIdDTO from '@services/Territory/ShowTerritory/IFindTerrit
 
 import Territory from '../entities/Territory';
 import ICreateTerritoryDTO from '../services/Territory/CreateTerritory/ICreateTerritoryDTO';
+import IGetTotalAreaDTO from '../services/Territory/TotalAreaTerritory/IGetTotalAreaDTO';
 
 export interface IFindAll extends Territory {
   painted_area: number;
@@ -18,5 +19,5 @@ export default interface ITerritoryRepository {
   findById(data: IFindTerritoryByIdDTO): Promise<Territory | undefined>;
   findAll(order: string): Promise<IFindAll[] | undefined>;
   create(data: ICreateTerritoryDTO): Promise<Territory>;
-  remove(id: string): Promise<void>;
+  getAreaTotal(): Promise<IGetTotalAreaDTO>;
 }

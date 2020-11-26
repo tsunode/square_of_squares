@@ -2,6 +2,7 @@ import SquaresPainted from '@entities/SquaresPainted';
 import ICreateSquareDTO from '@services/Square/CreateSquare/ICreateSquareDTO';
 import IFindAllSquadsPaintedDTO from '@services/Square/ListSquares/IFindAllSquadsPaintedDTO';
 import IFindSquadByPointDTO from '@services/Square/ShowSquare/IFindSquadByPointDTO';
+import IGetTotalAreaDTO from '../services/Territory/TotalAreaTerritory/IGetTotalAreaDTO';
 
 export default interface ISquareRepository {
   findByPoint(data: IFindSquadByPointDTO): Promise<SquaresPainted | undefined>;
@@ -10,4 +11,5 @@ export default interface ISquareRepository {
   ): Promise<SquaresPainted[] | undefined>;
   create(data: ICreateSquareDTO): Promise<SquaresPainted>;
   countByTerritory(id: string): Promise<number>;
+  getAreaTotalPainted(): Promise<IGetTotalAreaDTO>;
 }

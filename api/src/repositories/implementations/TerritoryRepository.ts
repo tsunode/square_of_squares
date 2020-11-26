@@ -4,6 +4,7 @@ import Territory from '@entities/Territory';
 import IFindTerritoryByPointDTO from '@services/Territory/CreateTerritory/IFindTerritoryByPointDTO';
 import ICreateTerritoryDTO from '@services/Territory/CreateTerritory/ICreateTerritoryDTO';
 import IFindTerritoryByIdDTO from '@services/Territory/ShowTerritory/IFindTerritoryByIdDTO';
+import IGetTotalAreaDTO from '@services/Territory/TotalAreaTerritory/IGetTotalAreaDTO';
 import ITerritoryRepository, { IFindAll } from '../ITerritoryRepository';
 
 class TerritoryRepository implements ITerritoryRepository {
@@ -118,6 +119,15 @@ class TerritoryRepository implements ITerritoryRepository {
     }
 
     return territories;
+  }
+
+  public async getAreaTotal(): Promise<IGetTotalAreaDTO> {
+    const areaTotal = await this.ormRepository
+      .createQueryBuilder('territory')
+      .select('sum(area)', 'total_area')
+      .getRawOne<IGetTotalAreaDTO>();
+
+    return areaTotal;
   }
 }
 export default TerritoryRepository;

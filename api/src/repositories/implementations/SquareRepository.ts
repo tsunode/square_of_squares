@@ -4,6 +4,7 @@ import SquaresPainted from 'entities/SquaresPainted';
 import ICreateSquareDTO from '@services/Square/CreateSquare/ICreateSquareDTO';
 import IFindSquadByPointDTO from '@services/Square/ShowSquare/IFindSquadByPointDTO';
 import IFindAllSquadsPaintedDTO from '@services/Square/ListSquares/IFindAllSquadsPaintedDTO';
+import IGetTotalAreaDTO from '@services/Territory/TotalAreaTerritory/IGetTotalAreaDTO';
 import ISquareRepository from '../ISquareRepository';
 
 class SquareRepository implements ISquareRepository {
@@ -64,6 +65,15 @@ class SquareRepository implements ISquareRepository {
     const count = this.ormRepository.count({ territory_id: id });
 
     return count;
+  }
+
+  public async getAreaTotalPainted(): Promise<IGetTotalAreaDTO> {
+    const areaTotalPainted = await this.ormRepository
+      .createQueryBuilder('squares_painted')
+      .select('sum(area)', 'total_area')
+      .getRawOne<IGetTotalAreaDTO>();
+
+    return areaTotalPainted;
   }
 }
 export default SquareRepository;
