@@ -4,6 +4,8 @@ import TerritoryRepository from '@repositories/implementations/TerritoryReposito
 import SquareRepository from '@repositories/implementations/SquareRepository';
 import ITerritoryRepository from '@repositories/ITerritoryRepository';
 import ISquareRepository from '@repositories/ISquareRepository';
+import IErrorRepository from '@repositories/IErrorRepository';
+import ErrorRepository from '@repositories/implementations/ErrorRepository';
 
 container.registerSingleton<ITerritoryRepository>(
   'TerritoryRepository',
@@ -13,4 +15,9 @@ container.registerSingleton<ITerritoryRepository>(
 container.registerSingleton<ISquareRepository>(
   'SquareRepository',
   SquareRepository,
+);
+
+container.registerSingleton<IErrorRepository>(
+  'ErrorRepository',
+  ErrorRepository,
 );
