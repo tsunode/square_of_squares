@@ -1,0 +1,35 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "docker",
+    "database": "squares",
+    "logging": false,
+    "entities": [
+      "./src/entities/*.ts"
+    ],
+    "migrations":[
+      "./src/config/database/migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "./src/config/database/migrations/"
+    }
+  },
+  {
+    "name": "mongo",
+    "type": "mongodb",
+    "host": "localhost",
+    "port": 27017,
+    "database": "squares",
+    "useUnifiedTopology": true,
+    "entities": [
+      "./src/schemas/*.ts"
+    ]
+  }
+]
+
+
+
