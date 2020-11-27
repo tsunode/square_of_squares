@@ -8,18 +8,18 @@
     "strictPropertyInitialization": false,
     "baseUrl": "./src",
     "allowJs": true,
+    "paths": {
+      "@controllers/*": ["controllers/*"],
+      "@entities/*": ["entities/*"],
+      "@errors/*": ["errors/*"],
+      "@repositories/*": ["repositories/*"],
+      "@services/*": ["services/*"],
+    },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "paths": {
-      "@services/*": ["services/*"],
-      "@repositories/*": ["repositories/*"],
-      "@entities/*": ["entities/*"],
-      "@controllers/*": ["controllers/*"],
-      "@errors/*": ["errors/*"],
-    }
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules", "prettier.config.js"]
+  "exclude": ["node_modules", "prettier.config.js", "babel.config.js", "dist"]
 }

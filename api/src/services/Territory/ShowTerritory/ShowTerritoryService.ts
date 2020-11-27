@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
 import Territory from 'entities/Territory';
-import ISquareRepository from 'repositories/ISquareRepository';
+import ISquareRepository from '@repositories/ISquareRepository';
 import IErrorRepository from '@repositories/IErrorRepository';
 import ITerritoryRepository from '../../../repositories/ITerritoryRepository';
 import AppError from '../../../errors/AppError';

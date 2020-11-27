@@ -1,7 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 
-import ISquareRepository from 'repositories/ISquareRepository';
-import ITerritoryRepository from '../../../repositories/ITerritoryRepository';
+import ISquareRepository from '@repositories/ISquareRepository';
+import ITerritoryRepository from '@repositories/ITerritoryRepository';
 
 interface IResponse {
   painted_area: number;
